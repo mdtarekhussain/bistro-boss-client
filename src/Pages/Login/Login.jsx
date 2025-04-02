@@ -8,6 +8,7 @@ import {
 import AuthContext from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../../Component/SocialLogin/SocialLogin";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -121,8 +122,10 @@ const Login = () => {
                     type="submit"
                     value="Login"
                   />
+                  <SocialLogin></SocialLogin>
                 </fieldset>
               </form>
+
               <div className="flex  items-center">
                 <p className="text-[18px] font-semibold">
                   {" "}

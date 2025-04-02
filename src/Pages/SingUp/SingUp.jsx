@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   loadCaptchaEnginge,
@@ -9,10 +9,12 @@ import {
 import AuthContext from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import useAxiosLocal from "../../Hooks/useAxiosLocal";
+import SocialLogin from "../../Component/SocialLogin/SocialLogin";
 const SingUp = () => {
+  const localAxios = useAxiosLocal();
   const navigate = useNavigate();
-  const location = useLocation();
-  const form = location.state?.form?.pathname || "/";
+
   const { signIn, updateUSerProfile } = useContext(AuthContext);
   const {
     register,
@@ -30,12 +32,21 @@ const SingUp = () => {
         console.log("New User Created:", user);
         updateUSerProfile(data.name, data.photo)
           .then(() => {
-            reset();
-            Swal.fire({
-              icon: "success",
-              title: "Sign up successful!",
-              showConfirmButton: false,
-              timer: 1500,
+            const authInfo = {
+              name: data.name,
+              email: data.email,
+            };
+            localAxios.post("/user", authInfo).then((res) => {
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  icon: "success",
+                  title: "Sign up successful!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              }
             });
           })
           .catch((error) => {
@@ -46,7 +57,6 @@ const SingUp = () => {
               text: error.message,
             });
           });
-        navigate(form, { replace: true });
       })
       .catch((error) => {
         console.error("Sign Up Error:", error);
@@ -214,6 +224,7 @@ const SingUp = () => {
                   />
                 </fieldset>
               </form>
+              <SocialLogin></SocialLogin>
               <div className="flex  items-center">
                 <p className="text-[18px] font-semibold">
                   {" "}

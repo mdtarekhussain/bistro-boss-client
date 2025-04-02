@@ -6,6 +6,9 @@ import Order from "../Pages/Order/Order/Order";
 import Login from "../Pages/Login/Login";
 import SingUp from "../Pages/SingUp/SingUp";
 import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../Layout/Dashborad";
+import DashCard from "../Pages/Dashborads/DashCard/DashCard";
+import AllUser from "../Pages/Dashborads/AllUser/AllUser";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/outShop/:category",
-        element: (
-          <PrivateRoute>
-            <Order></Order>
-          </PrivateRoute>
-        ),
+        element: <Order></Order>,
       },
       {
         path: "/login",
@@ -35,6 +34,25 @@ const router = createBrowserRouter([
       {
         path: "/singUp",
         element: <SingUp></SingUp>,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "dashCard",
+        element: <DashCard></DashCard>,
+      },
+      // admin Route
+      {
+        path: "AllUser",
+        element: <AllUser></AllUser>,
       },
     ],
   },

@@ -1,11 +1,20 @@
 import { Link, NavLink } from "react-router-dom";
-import img1 from "../../../assets/icon/151-1511569_cart-notifications-free-shopping-cart-favicon-hd-png-removebg-preview.png";
+
+import img2 from "../../../assets/others/profile.png";
 import { useContext } from "react";
 import AuthContext from "../../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../../Hooks/useCart";
+import PrivateRoute from "../../../Routes/PrivateRoute";
 
 const Naver = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const [cart] = useCart();
+  const { user, logOut, loading } = useContext(AuthContext);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   const handleLogOut = () => {
     logOut()
       .then((res) => {
@@ -25,23 +34,24 @@ const Naver = () => {
       <li className="text-[20px]  font-[600]">
         <NavLink to="/"> HOME</NavLink>
       </li>
-      <li className="text-[20px] text-black font-[600]">
+      <li className="text-[20px] font-[600]">
         <NavLink to="/contact">CONTACT US</NavLink>
       </li>
-      <li className="text-[20px] text-black font-[600]">
+      <li className="text-[20px] font-[600]">
         <NavLink to="/dashboard"> DASHBOARD</NavLink>
       </li>
-      <li className="text-[20px] text-black font-[600]">
+      <li className="text-[20px] font-[600]">
         <NavLink to="/outMenu"> OUR MENU</NavLink>
       </li>
-      <li className="text-[20px] text-black font-[600]">
+      <li className="text-[20px] font-[600]">
         <NavLink to="/outShop/salad"> OUR SHOP</NavLink>
       </li>
     </>
   );
   return (
     <>
-      <div className="navbar bg-[255,255,255,0.3]   fixed z-10 bg-opacity-30 shadow-sm lg:px-6 lg:px-r-2">
+      <div className="navbar bg-[#00000030] text-white  fixed z-10 bg-opacity-30 shadow-sm lg:px-6 lg:px-r-2">
+        {/* className="navbar bg-[#00000014]   fixed z-10 bg-opacity-30 shadow-sm lg:px-6 lg:px-r-2" */}
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -77,7 +87,15 @@ const Naver = () => {
         </div>
         <div className="navbar-end flex justify-center items-center">
           <div>
-            <img className="w-10 mr-3 " src={img1} alt="" />
+            {" "}
+            <Link to="/dashboard">
+              <button className="btn flex mr-2">
+                <FaShoppingCart />
+                <div className="badge badge-sm badge-secondary">
+                  +{cart.length}
+                </div>
+              </button>
+            </Link>
           </div>
           <div>
             {" "}
@@ -102,14 +120,11 @@ const Naver = () => {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
+            <div className="w-12 rounded-full">
               {user ? (
-                <img alt="Tailwind CSS Navbar component" src={user.photoURL} />
+                <img alt="" src={user?.photoURL} />
               ) : (
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
+                <img alt="" src={img2} />
               )}
             </div>
           </div>
