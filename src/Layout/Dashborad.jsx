@@ -13,9 +13,11 @@ import { FaCableCar } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
 import { RiPaypalFill } from "react-icons/ri";
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+  // const isAdmin = true;
   return (
     <div className="flex ">
       <div className="w-64 min-h-screen bg-amber-600 ">
@@ -72,7 +74,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li className="bg-blue-400 rounded-lg">
-                <NavLink to={"/dashboard/myCart"}>
+                <NavLink to={"/dashboard/dashCard"}>
                   <FaShoppingCart /> MY Cart
                 </NavLink>
               </li>

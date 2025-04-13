@@ -59,7 +59,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       return state();
     };
-  }, []);
+  }, [localAxios]);
   const authInfo = {
     user,
     loading,

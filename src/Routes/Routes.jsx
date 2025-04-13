@@ -9,6 +9,11 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashborad";
 import DashCard from "../Pages/Dashborads/DashCard/DashCard";
 import AllUser from "../Pages/Dashborads/AllUser/AllUser";
+import AdminRoutes from "./AdminRoutes";
+import AddItemsDashCard from "../Pages/Dashborads/DashCard/AddItemsDashCard/AddItemsDashCard";
+import ManageItem from "../Pages/Dashborads/ManageItem/ManageItem";
+import UpdateData from "../Pages/Dashborads/UpdateData/UpdateData";
+import Payment from "../Pages/Dashborads/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -49,10 +54,51 @@ const router = createBrowserRouter([
         path: "dashCard",
         element: <DashCard></DashCard>,
       },
+      {
+        path: "payment",
+        element: <Payment></Payment>,
+      },
       // admin Route
       {
+        path: "addItem",
+        element: (
+          <AdminRoutes>
+            <AddItemsDashCard></AddItemsDashCard>
+          </AdminRoutes>
+        ),
+      },
+      {
         path: "AllUser",
-        element: <AllUser></AllUser>,
+        element: (
+          <AdminRoutes>
+            <AllUser></AllUser>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "manageItem",
+        element: (
+          <AdminRoutes>
+            <ManageItem></ManageItem>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "update/:id",
+        element: (
+          <AdminRoutes>
+            <UpdateData></UpdateData>
+          </AdminRoutes>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `http://localhost:5000/menu/${params.id}`
+            //   , {
+            //   headers: {
+            //     authorization: `Bearer ${localStorage.getItem("access-token")}`,
+            //   },
+            // }
+          ),
       },
     ],
   },

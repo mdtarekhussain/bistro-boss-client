@@ -55,11 +55,6 @@ const AllUser = () => {
 
   return (
     <div className="">
-      <div className="flex justify-evenly items-center ">
-        <h1>Items :{user.length}</h1>
-        <h1>Total Price :{}</h1>
-        <button className="btn btn-primary">Pay</button>
-      </div>
       <div className="overflow-x-auto px-10 mt-5">
         <table className="table w-full">
           {/* head */}

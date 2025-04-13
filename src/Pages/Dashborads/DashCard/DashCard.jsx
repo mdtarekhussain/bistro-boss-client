@@ -2,6 +2,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import useCart from "../../../Hooks/useCart";
 import Swal from "sweetalert2";
 import useAxios from "../../../Hooks/useAxios";
+import { Link } from "react-router-dom";
 
 const DashCard = () => {
   const [cart, refetch] = useCart();
@@ -37,7 +38,9 @@ const DashCard = () => {
       <div className="flex justify-evenly items-center ">
         <h1>Items :{cart.length}</h1>
         <h1>Total Price :{totalPrice}</h1>
-        <button className="btn btn-primary">Pay</button>
+        <Link to={"/dashboard/payment"}>
+          <button className="btn btn-primary">Pay</button>
+        </Link>
       </div>
       <div className="overflow-x-auto px-10 mt-5">
         <table className="table w-full">
