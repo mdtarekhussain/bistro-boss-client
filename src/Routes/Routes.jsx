@@ -14,6 +14,9 @@ import AddItemsDashCard from "../Pages/Dashborads/DashCard/AddItemsDashCard/AddI
 import ManageItem from "../Pages/Dashborads/ManageItem/ManageItem";
 import UpdateData from "../Pages/Dashborads/UpdateData/UpdateData";
 import Payment from "../Pages/Dashborads/Payment/Payment";
+import PaymentHistory from "../Pages/Dashborads/PaymentHistory/PaymentHistory";
+import UserHome from "../Pages/Dashborads/UserHome/UserHome";
+import AdminHome from "../Pages/Dashborads/AdminHome/AdminHome";
 
 const router = createBrowserRouter([
   {
@@ -55,10 +58,26 @@ const router = createBrowserRouter([
         element: <DashCard></DashCard>,
       },
       {
+        path: "userHome",
+        element: <UserHome></UserHome>,
+      },
+      {
         path: "payment",
         element: <Payment></Payment>,
       },
+      {
+        path: "paymentHistory",
+        element: <PaymentHistory></PaymentHistory>,
+      },
       // admin Route
+      {
+        path: "adminHome",
+        element: (
+          <AdminRoutes>
+            <AdminHome></AdminHome>
+          </AdminRoutes>
+        ),
+      },
       {
         path: "addItem",
         element: (

@@ -38,9 +38,15 @@ const DashCard = () => {
       <div className="flex justify-evenly items-center ">
         <h1>Items :{cart.length}</h1>
         <h1>Total Price :{totalPrice}</h1>
-        <Link to={"/dashboard/payment"}>
-          <button className="btn btn-primary">Pay</button>
-        </Link>
+        {cart.length ? (
+          <Link to={"/dashboard/payment"}>
+            <button className="btn btn-primary">Pay</button>
+          </Link>
+        ) : (
+          <button disabled className="btn btn-primary">
+            Pay
+          </button>
+        )}
       </div>
       <div className="overflow-x-auto px-10 mt-5">
         <table className="table w-full">

@@ -7,13 +7,12 @@ import Swal from "sweetalert2";
 import { FaShoppingCart } from "react-icons/fa";
 import useCart from "../../../Hooks/useCart";
 import PrivateRoute from "../../../Routes/PrivateRoute";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Naver = () => {
   const [cart] = useCart();
-  const { user, logOut, loading } = useContext(AuthContext);
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const [isAdmin] = useAdmin();
+  const { user, logOut } = useContext(AuthContext);
 
   const handleLogOut = () => {
     logOut()
@@ -37,9 +36,16 @@ const Naver = () => {
       <li className="text-[20px] font-[600]">
         <NavLink to="/contact">CONTACT US</NavLink>
       </li>
-      <li className="text-[20px] font-[600]">
-        <NavLink to="/dashboard"> DASHBOARD</NavLink>
-      </li>
+      {user && isAdmin && (
+        <li className="text-[20px] font-[600]">
+          <NavLink to="/dashboard/adminHome"> DASHBOARD</NavLink>
+        </li>
+      )}
+      {user && !isAdmin && (
+        <li className="text-[20px] font-[600]">
+          <NavLink to="/dashboard/userHome"> DASHBOARD</NavLink>
+        </li>
+      )}
       <li className="text-[20px] font-[600]">
         <NavLink to="/outMenu"> OUR MENU</NavLink>
       </li>

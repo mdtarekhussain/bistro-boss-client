@@ -14,9 +14,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
 import { RiPaypalFill } from "react-icons/ri";
 import useAdmin from "../Hooks/useAdmin";
+import useCart from "../Hooks/useCart";
 
 const Dashboard = () => {
   const [isAdmin] = useAdmin();
+  const [cart] = useCart();
   // const isAdmin = true;
   return (
     <div className="flex ">
@@ -69,13 +71,13 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li className="bg-blue-400 rounded-lg">
-                <NavLink to={"/dashboard/reservation"}>
+                <NavLink to={"/dashboard/paymentHistory"}>
                   <RiPaypalFill /> PayMent History
                 </NavLink>
               </li>
               <li className="bg-blue-400 rounded-lg">
                 <NavLink to={"/dashboard/dashCard"}>
-                  <FaShoppingCart /> MY Cart
+                  <FaShoppingCart /> MY Cart ({cart.length})
                 </NavLink>
               </li>
               <li className="bg-blue-400 rounded-lg">
