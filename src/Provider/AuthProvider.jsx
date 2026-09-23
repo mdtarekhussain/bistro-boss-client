@@ -20,47 +20,58 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const localAxios = useAxiosLocal();
+
   const signIn = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
+
   const signInGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
-  const loginUser = (name, password) => {
+
+  const loginUser = (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, name, password);
+    return signInWithEmailAndPassword(auth, email, password);
   };
+
   const logOut = () => {
     setLoading(true);
     return signOut(auth);
   };
+
   const updateUSerProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
     });
   };
+
   useEffect(() => {
-    const state = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      
       if (currentUser) {
-        const user = { email: currentUser.email };
-        localAxios.post("/jwt", user).then((res) => {
-          if (res.data.token) {
-            localStorage.setItem("access-token", res.data.token);
-            setLoading(false);
-          } else localStorage.removeItem("access-token");
-          setLoading(false);
-        });
+        // Generate JWT token
+        const userInfo = { email: currentUser.email };
+        localAxios.post("/jwt", userInfo)
+          .then((res) => {
+            if (res.data.token) {
+              localStorage.setItem("access-token", res.data.token);
+            }
+          })
+          .catch((error) => {
+            console.error("JWT generation failed:", error);
+          });
       }
-      console.log("current User", currentUser);
+      
+      setLoading(false);
     });
-    return () => {
-      return state();
-    };
+
+    return () => unsubscribe();
   }, [localAxios]);
+
   const authInfo = {
     user,
     loading,
@@ -70,9 +81,13 @@ const AuthProvider = ({ children }) => {
     updateUSerProfile,
     signInGoogle,
   };
+
   return (
-    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authInfo}>
+      {children}
+    </AuthContext.Provider>
   );
 };
+
 export { AuthProvider, AuthContext };
 export default AuthContext;

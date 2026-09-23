@@ -1,24 +1,73 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosLocal from "../../Hooks/useAxiosLocal";
+import Swal from "sweetalert2";
 
 const SocialLogin = () => {
   const { signInGoogle } = useAuth();
   const localAxios = useAxiosLocal();
   const navigate = useNavigate();
+
   const handleGoogle = () => {
-    signInGoogle().then((res) => {
-      console.log(res.user);
-      const authUser = {
-        email: res.user?.email,
-        name: res.user?.displayName,
-      };
-      localAxios.post("/user", authUser).then((res) => {
-        console.log(res.user);
-        navigate("/");
+    signInGoogle()
+      .then((res) => {
+        console.log("Google login success:", res.user);
+        const authUser = {
+          email: res.user?.email,
+          name: res.user?.displayName,
+        };
+        
+        // First check if user exists in database
+        localAxios.get(`/user/admin/${authUser.email}`)
+          .then((checkRes) => {
+            if (checkRes.data.admin) {
+              // User exists, proceed to home
+              navigate("/");
+            } else {
+              // User doesn't exist, create new user
+              localAxios.post("/user", authUser)
+                .then((createRes) => {
+                  console.log("User created:", createRes.data);
+                  navigate("/");
+                })
+                .catch((createError) => {
+                  console.error("User creation failed:", createError);
+                  Swal.fire({
+                    icon: "error",
+                    title: "User Creation Failed",
+                    text: "Please try again later.",
+                  });
+                });
+            }
+          })
+          .catch((checkError) => {
+            console.error("User check failed:", checkError);
+            // If check fails, try to create user
+            localAxios.post("/user", authUser)
+              .then((createRes) => {
+                console.log("User created:", createRes.data);
+                navigate("/");
+              })
+              .catch((createError) => {
+                console.error("User creation failed:", createError);
+                Swal.fire({
+                  icon: "error",
+                  title: "User Creation Failed",
+                  text: "Please try again later.",
+                });
+              });
+          });
+      })
+      .catch((error) => {
+        console.error("Google login error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Google Login Failed",
+          text: error.message || "Please try again later.",
+        });
       });
-    });
   };
+
   return (
     <div>
       <div className="divider"></div>
