@@ -6,7 +6,7 @@ const useMEnu = () => {
   // const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(true);
   // useEffect(() => {
-  //   fetch("http://localhost:5000/menu")
+  //   fetch("https://bistro-boss-server-k4uu.vercel.app//menu")
   //     .then((resizeBy) => resizeBy.json())
   //     .then((data) => {
   //       setData(data);

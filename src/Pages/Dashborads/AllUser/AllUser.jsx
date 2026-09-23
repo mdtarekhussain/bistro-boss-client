@@ -12,21 +12,22 @@ const AllUser = () => {
       return res.data;
     },
   });
+
   const handleAdmin = (user) => {
     axiosSecure.patch(`/user/admin/${user._id}`).then((res) => {
       console.log(res.data);
       if (res.data.modifiedCount > 0) {
         refetch();
-
         Swal.fire({
           icon: "success",
-          title: `${res.name} is an Admin Now`,
+          title: `${user.name} is an Admin Now`,
           showConfirmButton: false,
           timer: 1500,
         });
       }
     });
   };
+
   const handelDelete = (user) => {
     Swal.fire({
       title: "Are you sure?",
@@ -36,10 +37,11 @@ const AllUser = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/user/${user._id}`).then((res) => {
-          console.log(res);
+        try {
+          const res = await axiosSecure.delete(`/user/${user._id}`);
+          console.log(res.data);
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({
@@ -48,7 +50,14 @@ const AllUser = () => {
               icon: "success",
             });
           }
-        });
+        } catch (error) {
+          console.error("Delete failed:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete user.",
+            icon: "error",
+          });
+        }
       }
     });
   };
@@ -57,28 +66,24 @@ const AllUser = () => {
     <div className="">
       <div className="overflow-x-auto px-10 mt-5">
         <table className="table w-full">
-          {/* head */}
           <thead>
             <tr>
               <th>#</th>
-
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
-
-              <th> Action</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {user.map((item, index) => (
               <tr key={item._id}>
                 <th>{index + 1}</th>
-
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <th>
                   {item.role === "admin" ? (
-                    <button> Admin</button>
+                    <button>Admin</button>
                   ) : (
                     <button
                       onClick={() => handleAdmin(item)}
@@ -90,7 +95,7 @@ const AllUser = () => {
                 </th>
                 <th>
                   <button
-                    onClick={() => handelDelete(item._id)}
+                    onClick={() => handelDelete(item)}
                     className="btn btn-ghost btn-lg"
                   >
                     <FaTrashAlt className="text-red-600"></FaTrashAlt>

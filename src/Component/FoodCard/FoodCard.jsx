@@ -19,7 +19,7 @@ const FoodCard = ({ item }) => {
         image,
         name,
       };
-      axiosSecure.post("http://localhost:5000/cards", cartItem).then((res) => {
+      axiosSecure.post("https://bistro-boss-server-k4uu.vercel.app//cards", cartItem).then((res) => {
         console.log(res.data);
         if (res.data.insertedId) {
           Swal.fire({

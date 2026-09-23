@@ -1,5 +1,4 @@
 import { Link, NavLink } from "react-router-dom";
-
 import img2 from "../../../assets/others/profile.png";
 import { useContext } from "react";
 import AuthContext from "../../../Provider/AuthProvider";
@@ -28,14 +27,13 @@ const Naver = () => {
         });
       });
   };
+
   const navbar = (
     <>
       <li className="text-[20px]  font-[600]">
         <NavLink to="/"> HOME</NavLink>
       </li>
-      <li className="text-[20px] font-[600]">
-        <NavLink to="/contact">CONTACT US</NavLink>
-      </li>
+      
       {user && isAdmin && (
         <li className="text-[20px] font-[600]">
           <NavLink to="/dashboard/adminHome"> DASHBOARD</NavLink>
@@ -54,10 +52,10 @@ const Naver = () => {
       </li>
     </>
   );
+
   return (
     <>
-      <div className="navbar bg-[#00000030] text-white  fixed z-10 bg-opacity-30 shadow-sm lg:px-6 lg:px-r-2">
-        {/* className="navbar bg-[#00000014]   fixed z-10 bg-opacity-30 shadow-sm lg:px-6 lg:px-r-2" */}
+      <div className="navbar bg-[#00000030] text-white fixed top-0 left-0 right-0 z-10 bg-opacity-30 shadow-sm lg:px-6 lg:px-r-2">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -68,23 +66,22 @@ const Naver = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                {" "}
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
+                />
               </svg>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content  bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               {navbar}
             </ul>
           </div>
-          <a className="btn btn-ghost lg:text-[32px]  text-[#A56ABD] lg:font-[600]">
+          <a className="btn btn-ghost lg:text-[32px] text-[#A56ABD] lg:font-[600]">
             BISTRO BOSS
           </a>
         </div>
@@ -93,8 +90,7 @@ const Naver = () => {
         </div>
         <div className="navbar-end flex justify-center items-center">
           <div>
-            {" "}
-            <Link to="/dashboard">
+            <Link to="/cart">
               <button className="btn flex mr-2">
                 <FaShoppingCart />
                 <div className="badge badge-sm badge-secondary">
@@ -104,20 +100,18 @@ const Naver = () => {
             </Link>
           </div>
           <div>
-            {" "}
             {user ? (
               <button
                 onClick={handleLogOut}
-                className=" mr-3 lg:text-[20px] btn font-[600]"
+                className="mr-3 lg:text-[20px] btn font-[600]"
               >
                 Sing Out
               </button>
             ) : (
               <Link to="/login">
-                {" "}
-                <button className="text-black btn mr-3 lg:text-[20px]  font-[600]">
+                <button className="text-black btn mr-3 lg:text-[20px] font-[600]">
                   Login
-                </button>{" "}
+                </button>
               </Link>
             )}
           </div>

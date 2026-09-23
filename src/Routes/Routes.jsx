@@ -13,10 +13,12 @@ import AdminRoutes from "./AdminRoutes";
 import AddItemsDashCard from "../Pages/Dashborads/DashCard/AddItemsDashCard/AddItemsDashCard";
 import ManageItem from "../Pages/Dashborads/ManageItem/ManageItem";
 import UpdateData from "../Pages/Dashborads/UpdateData/UpdateData";
-import Payment from "../Pages/Dashborads/Payment/Payment";
+import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/Dashborads/PaymentHistory/PaymentHistory";
 import UserHome from "../Pages/Dashborads/UserHome/UserHome";
 import AdminHome from "../Pages/Dashborads/AdminHome/AdminHome";
+import CartPage from "../Pages/card/CartPage";
+
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,18 @@ const router = createBrowserRouter([
         path: "/singUp",
         element: <SingUp></SingUp>,
       },
+      {
+        path: "payment",
+        element: <Payment></Payment>,
+      },
+      {
+        path: "/cart", // ✅ কার্ট রাউট
+        element: (
+          <PrivateRoute>
+            <CartPage />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
@@ -61,10 +75,7 @@ const router = createBrowserRouter([
         path: "userHome",
         element: <UserHome></UserHome>,
       },
-      {
-        path: "payment",
-        element: <Payment></Payment>,
-      },
+      
       {
         path: "paymentHistory",
         element: <PaymentHistory></PaymentHistory>,
@@ -111,15 +122,11 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `http://localhost:5000/menu/${params.id}`
-            //   , {
-            //   headers: {
-            //     authorization: `Bearer ${localStorage.getItem("access-token")}`,
-            //   },
-            // }
+            `https://bistro-boss-server-k4uu.vercel.app//menu/${params.id}`
           ),
       },
     ],
   },
 ]);
+
 export default router;
